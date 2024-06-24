@@ -11,27 +11,6 @@ import TabBottomMenu from './components/TabBottomMenu/TabBottomMenu';
 import styles from './App.style';
 import ButtonAdd from './components/ButtonAdd/ButtonAdd';
 
-const list = [
-  { id: 1, title: 'this is a test', isCompleted: true },
-  { id: 2, title: 'this is a test', isCompleted: false },
-  { id: 3, title: 'this is a test', isCompleted: false },
-  { id: 4, title: 'this is a test', isCompleted: true },
-  { id: 5, title: 'this is a test', isCompleted: false },
-  { id: 6, title: 'this is a test', isCompleted: false },
-  { id: 7, title: 'this is a test', isCompleted: true },
-  { id: 8, title: 'this is a test', isCompleted: false },
-  { id: 9, title: 'this is a test', isCompleted: false },
-  { id: 10, title: 'this is a test', isCompleted: true },
-  { id: 11, title: 'this is a test', isCompleted: false },
-  { id: 12, title: 'this is a test', isCompleted: false },
-  { id: 13, title: 'this is a test', isCompleted: true },
-  { id: 14, title: 'this is a test', isCompleted: false },
-  { id: 15, title: 'this is a test', isCompleted: false },
-  { id: 16, title: 'this is a test', isCompleted: true },
-  { id: 17, title: 'this is a test', isCompleted: false },
-  { id: 18, title: 'this is a test', isCompleted: false },
-];
-
 export default function App() {
   const [todoList, setTodoList] = useState([]);
   const [selectedTabName, setSelectedTabName] = useState('All');
