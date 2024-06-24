@@ -1,21 +1,46 @@
 import { ScrollView, View, Alert } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Dialog from 'react-native-dialog';
 import uuid from 'react-native-uuid';
 
 import Header from './components/Header/Header';
 import Card from './components/Card/Card';
 import TabBottomMenu from './components/TabBottomMenu/TabBottomMenu';
+import ButtonAdd from './components/ButtonAdd/ButtonAdd';
+import { storeData, getData } from './asyncStore/store';
 
 import styles from './App.style';
-import ButtonAdd from './components/ButtonAdd/ButtonAdd';
 
+let isFirstLoad = true;
+let isLoadUpdate = false;
 export default function App() {
   const [todoList, setTodoList] = useState([]);
   const [selectedTabName, setSelectedTabName] = useState('All');
   const [isShowDialog, setIsShowDialog] = useState(false);
   const [inputVal, setInputVal] = useState('');
+
+  useEffect(() => {
+    async function loadData() {
+      const persistData = await getData();
+      setTodoList(persistData || []);
+      isLoadUpdate = true;
+    }
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    if (!isLoadUpdate) {
+      if (!isFirstLoad) {
+        storeData(todoList);
+      } else {
+        isFirstLoad = false;
+      }
+    } else {
+      isLoadUpdate = false;
+    }
+  }, [todoList]);
+
   function updateTodo(todo) {
     const updateTodoList = [...todoList];
     const updatedTodo = { ...todo, isCompleted: !todo.isCompleted };
@@ -63,6 +88,7 @@ export default function App() {
         return [];
     }
   }
+
   return (
     <>
       <SafeAreaProvider>
@@ -72,15 +98,16 @@ export default function App() {
           </View>
           <View style={styles.body}>
             <ScrollView>
-              {getSelectedList().map((item) => (
-                <View key={item.id} style={styles.cardItem}>
-                  <Card
-                    todo={item}
-                    onPress={updateTodo}
-                    onLongPress={handleLongPress}
-                  />
-                </View>
-              ))}
+              {getSelectedList().length > 0 &&
+                getSelectedList().map((item) => (
+                  <View key={item.id} style={styles.cardItem}>
+                    <Card
+                      todo={item}
+                      onPress={updateTodo}
+                      onLongPress={handleLongPress}
+                    />
+                  </View>
+                ))}
             </ScrollView>
           </View>
           <View>
