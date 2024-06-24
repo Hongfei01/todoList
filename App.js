@@ -41,6 +41,19 @@ export default function App() {
   function handleSelectedName(tabName) {
     setSelectedTabName(tabName);
   }
+
+  function getSelectedList() {
+    switch (selectedTabName) {
+      case 'All':
+        return todoList;
+      case 'In Progress':
+        return todoList.filter((todo) => todo.isCompleted == false);
+      case 'Done':
+        return todoList.filter((todo) => todo.isCompleted === true);
+      default:
+        return [];
+    }
+  }
   return (
     <>
       <SafeAreaProvider>
@@ -50,7 +63,7 @@ export default function App() {
           </View>
           <View style={styles.body}>
             <ScrollView>
-              {todoList.map((item) => (
+              {getSelectedList().map((item) => (
                 <View key={item.id} style={styles.cardItem}>
                   <Card todo={item} onPress={updateTodo} />
                 </View>
@@ -63,6 +76,7 @@ export default function App() {
         <TabBottomMenu
           selectedTabName={selectedTabName}
           onPress={handleSelectedName}
+          todoList={todoList}
         />
       </View>
     </>
