@@ -12,8 +12,13 @@ const styles = StyleSheet.create({
   body: {
     flex: 5,
   },
+  cardItem: {
+    marginBottom: 15,
+  },
+
   footer: {
     height: 70,
+    backgroundColor: 'white',
   },
 });
 
