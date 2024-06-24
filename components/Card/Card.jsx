@@ -3,9 +3,13 @@ import { TouchableOpacity, Text, Image } from 'react-native';
 import check from '../../assets/check.png';
 
 import style from './style';
-const Card = ({ todo, onPress }) => {
+const Card = ({ todo, onPress, onLongPress }) => {
   return (
-    <TouchableOpacity style={style.card} onPress={() => onPress(todo)}>
+    <TouchableOpacity
+      onLongPress={onLongPress.bind(this, todo)}
+      style={style.card}
+      onPress={() => onPress(todo)}
+    >
       <Text
         style={[
           style.title,

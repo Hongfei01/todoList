@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View, Alert } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 
@@ -42,6 +42,18 @@ export default function App() {
     setSelectedTabName(tabName);
   }
 
+  function deleteTodo(todo) {
+    const updatedTodoList = todoList.filter((item) => item.id !== todo.id);
+    setTodoList(updatedTodoList);
+  }
+
+  function handleLongPress(todo) {
+    Alert.alert('Delete todo', 'Are you sure', [
+      { text: 'Delete', style: 'destructive', onPress: () => deleteTodo(todo) },
+      { text: 'Cancel', style: 'cancel' },
+    ]);
+  }
+
   function getSelectedList() {
     switch (selectedTabName) {
       case 'All':
@@ -65,7 +77,11 @@ export default function App() {
             <ScrollView>
               {getSelectedList().map((item) => (
                 <View key={item.id} style={styles.cardItem}>
-                  <Card todo={item} onPress={updateTodo} />
+                  <Card
+                    todo={item}
+                    onPress={updateTodo}
+                    onLongPress={handleLongPress}
+                  />
                 </View>
               ))}
             </ScrollView>
