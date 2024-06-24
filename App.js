@@ -5,6 +5,7 @@ import { useState } from 'react';
 import styles from './App.style';
 import Header from './components/Header/Header';
 import Card from './components/Card/Card';
+import TabBottomMenu from './components/TabBottomMenu/TabBottomMenu';
 
 const list = [
   { id: 1, title: 'this is a test', isCompleted: true },
@@ -28,13 +29,17 @@ const list = [
 ];
 export default function App() {
   const [todoList, setTodoList] = useState(list);
-
+  const [selectedTabName, setSelectedTabName] = useState('All');
   function updateTodo(todo) {
     const updateTodoList = [...todoList];
     const updatedTodo = { ...todo, isCompleted: !todo.isCompleted };
     const updateIndex = updateTodoList.findIndex((t) => t.id === todo.id);
     updateTodoList[updateIndex] = updatedTodo;
     setTodoList(updateTodoList);
+  }
+
+  function handleSelectedName(tabName) {
+    setSelectedTabName(tabName);
   }
   return (
     <>
@@ -55,7 +60,10 @@ export default function App() {
         </SafeAreaView>
       </SafeAreaProvider>
       <View style={styles.footer}>
-        <Text>Footer</Text>
+        <TabBottomMenu
+          selectedTabName={selectedTabName}
+          onPress={handleSelectedName}
+        />
       </View>
     </>
   );
