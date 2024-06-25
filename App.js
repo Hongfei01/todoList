@@ -1,6 +1,6 @@
 import { ScrollView, View, Alert } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Dialog from 'react-native-dialog';
 import uuid from 'react-native-uuid';
 
@@ -19,6 +19,7 @@ export default function App() {
   const [selectedTabName, setSelectedTabName] = useState('All');
   const [isShowDialog, setIsShowDialog] = useState(false);
   const [inputVal, setInputVal] = useState('');
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     async function loadData() {
@@ -74,6 +75,9 @@ export default function App() {
     setTodoList([newTodo, ...todoList]);
     setIsShowDialog(false);
     setInputVal('');
+    setTimeout(() => {
+      scrollRef.current.scrollToEnd();
+    }, 300);
   }
 
   function getSelectedList() {
@@ -97,7 +101,7 @@ export default function App() {
             <Header />
           </View>
           <View style={styles.body}>
-            <ScrollView>
+            <ScrollView ref={scrollRef}>
               {getSelectedList().length > 0 &&
                 getSelectedList().map((item) => (
                   <View key={item.id} style={styles.cardItem}>
